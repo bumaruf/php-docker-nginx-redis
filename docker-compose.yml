@@ -1,7 +1,7 @@
-version: "3.2"
+version: "3.8"
 services:
   nginx:
-    image: nginx:latest
+    image: nginx:1.23.3
     container_name: nginx
     volumes:
       - ./config/nginx/site.conf:/etc/nginx/conf.d/site.conf
@@ -10,6 +10,7 @@ services:
       - 80:80
     links:
       - php_app
+
   php_app:
     build: www
     container_name: php_app
@@ -17,25 +18,42 @@ services:
       - ./www:/www
     environment:
       - SESSION_HANDLER=redis
-      - SESSION_PATH=tcp://redis:${REDIS_PORT}?auth=${REDIS_PASSWORD}
+      - SESSION_PATH=tcp://redis:6379?auth=${REDIS_PASSWORD}
       - SESSION_MAX_TIME_LIFE=86400
+
   redis:
-    image: redis:alpine
+    image: redis:7.0
     container_name: redis
     command: redis-server --requirepass ${REDIS_PASSWORD}
     ports:
-      - ${REDIS_PORT}:${REDIS_PORT}
+      - ${REDIS_PORT}:6379
+
+  postgresql:
+    image: postgres:15.2
+    container_name: postgresql
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_PASSWORD}
+      POSTGRES_DB: ${POSTGRESQL_DATABASE}
+
   mysql:
     image: mysql:5.7.24
     container_name: mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     ports:
-      - ${MYSQL_PORT}:3306
+      - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: root
+
   phpmyadmin:
-    image: phpmyadmin
+    image: phpmyadmin:5
     restart: always
     ports:
       - 8080:80
