@@ -43,8 +43,14 @@ Example config
 REDIS_PORT=6379
 REDIS_PASSWORD=difficultpassword
 
+# PostgreSQL configuration
+POSTGRESQL_USER=root
+POSTGRESQL_PASSWORD=difficultpassword
+POSTGRESQL_DATABASE=default_db
+
 # Mysql configuration
-MYSQL_PORT=3306
+MYSQL_USER=test
+MYSQL_DATABASE=database
 MYSQL_PASSWORD=difficultpassword
 ```
 
