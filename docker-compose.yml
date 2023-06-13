@@ -12,7 +12,7 @@ services:
       - php_app
 
   php_app:
-    build: www
+    build: config/php
     container_name: php_app
     volumes:
       - ./www:/www

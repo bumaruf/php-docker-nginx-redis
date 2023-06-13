@@ -1,5 +1,3 @@
 .env
 www/*
-!www/Dockerfile
 !www/index.php
-!www/php.ini
