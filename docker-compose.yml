@@ -31,7 +31,6 @@ services:
   postgresql:
     image: postgres:15.2
     container_name: postgresql
-    restart: always
     ports:
       - 5432:5432
     environment:
@@ -43,7 +42,6 @@ services:
     image: mysql:5.7.24
     container_name: mysql
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
     ports:
       - 3306:3306
     environment:
@@ -54,7 +52,6 @@ services:
 
   phpmyadmin:
     image: phpmyadmin:5
-    restart: always
     ports:
       - 8080:80
     environment:
